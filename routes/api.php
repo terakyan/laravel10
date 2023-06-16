@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\Auth\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,9 +20,9 @@ Route::group(['namespace' => 'Api'], function () {
         Route::post('login', [AuthController::class, 'login']);
         Route::middleware('auth:sanctum')->post('logout', [AuthController::class, 'logout']);
     });
-});
 
+    Route::group(['middleware' => 'auth:api'], function () {
+        Route::get('user', [UserController::class, 'getUser']);
+    });
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
 });
